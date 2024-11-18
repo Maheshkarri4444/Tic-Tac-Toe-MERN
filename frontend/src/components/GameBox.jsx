@@ -8,7 +8,7 @@ const socket = io('http://localhost:7000');
 
 const GameBox = () => {
   const [boxes, setBoxes] = useState(Array(9).fill('Z'));
-  const [isPlayerX, setIsPlayerX] = useState(null);
+  // const [isPlayerX, setIsPlayerX] = useState(null);
   const [currentTurn, setCurrentTurn] = useState(null);
   const [turnFor, setTurnFor] = useState(null);
   const [winner, setWinner] = useState(null);
@@ -30,7 +30,7 @@ const GameBox = () => {
       setCurrentTurn(data.currentTurn);
       setTurnFor(data.turnFor);
       setWinner(data.winner);
-      setIsPlayerX(data.playerSymbol === 'X');
+      // setIsPlayerX(data.playerSymbol === 'X');
       setLoading(false);
     } catch (error) {
       toast.error(error.message);
@@ -47,7 +47,7 @@ const GameBox = () => {
       await fetchGame(); // Fetch the reset state from server
     });
     socket.on('playerAssignment', ({ assignedPlayer }) => {
-      setIsPlayerX(assignedPlayer === 'X');
+      // setIsPlayerX(assignedPlayer === 'X');
       setLoading(false);
     });
 
@@ -74,7 +74,6 @@ const GameBox = () => {
         const data = await res.json();
         throw new Error(data.error || 'Failed to make move');
       }
-
       socket.emit('playerMoved', { roomId: room });
       await fetchGame(); // Fetch the updated state after move
     } catch (error) {
@@ -98,7 +97,7 @@ const GameBox = () => {
   };
 
   const isMyTurn = currentTurn === user;
-  const mySymbol = isPlayerX ? 'X' : 'O';
+  // const mySymbol = isPlayerX ? 'X' : 'O';
 
   if (loading) return <div className="text-center text-white">Loading...</div>;
 
@@ -106,7 +105,7 @@ const GameBox = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
       <Toaster />
       {winner ? (
-        <div className={`text-2xl font-bold mb-4 ${winner === mySymbol ? 'text-green-400' : 'text-red-400'}`}>
+        <div className={`text-2xl font-bold mb-4 ${winner === user ? 'text-green-400' : 'text-red-400'}`}>
           {winner === user ? 'You Won! 🎉' : 'Opponent Won'}
         </div>
       ) : (

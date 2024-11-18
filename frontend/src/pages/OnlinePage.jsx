@@ -256,19 +256,19 @@ const OnlinePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-6 bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen gap-6 bg-gray-900">
       <Toaster />
-      <div className="p-8 bg-white rounded-lg shadow-md w-96">
+      <div className="p-8 bg-gray-800 rounded-lg shadow-md w-96">
         <div className="mb-6">
           <input
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF2E63]"
+            className="w-full px-4 py-2 mb-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
             type="text"
             placeholder="Enter your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <button
-            className="w-full mt-2 bg-[#FF2E63] text-white py-2 rounded-lg hover:bg-[#08D9D6] transition-colors"
+            className="w-full py-2 mt-2 text-white transition-colors bg-indigo-600 rounded-lg hover:bg-indigo-700"
             onClick={handleName}
             disabled={isLoading.name}
           >
@@ -276,9 +276,9 @@ const OnlinePage = () => {
           </button>
         </div>
 
-        <div className="mb-6">
+        <div className="mb-5">
           <input
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF2E63]"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
             type="text"
             placeholder="Room ID (e.g., 12345)"
             value={room}
@@ -288,14 +288,14 @@ const OnlinePage = () => {
 
         <div className="flex gap-4">
           <button
-            className="flex-1 bg-[#FF2E63] text-white py-2 rounded-lg hover:bg-[#08D9D6] transition-colors"
+            className="flex-1 py-2 text-white transition-colors bg-indigo-600 rounded-lg hover:bg-indigo-700"
             onClick={() => handleRoom('create')}
             disabled={isLoading.create}
           >
             {isLoading.create ? 'Creating...' : 'Create Room'}
           </button>
           <button
-            className="flex-1 bg-[#FF2E63] text-white py-2 rounded-lg hover:bg-[#08D9D6] transition-colors"
+            className="flex-1 py-2 text-white transition-colors bg-indigo-600 rounded-lg hover:bg-indigo-700"
             onClick={() => handleRoom('join')}
             disabled={isLoading.join}
           >
