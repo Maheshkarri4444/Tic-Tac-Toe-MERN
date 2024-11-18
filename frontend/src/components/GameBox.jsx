@@ -107,7 +107,7 @@ const GameBox = () => {
       <Toaster />
       {winner ? (
         <div className={`text-2xl font-bold mb-4 ${winner === mySymbol ? 'text-green-400' : 'text-red-400'}`}>
-          {winner === mySymbol ? 'You Won! 🎉' : 'Opponent Won'}
+          {winner === user ? 'You Won! 🎉' : 'Opponent Won'}
         </div>
       ) : (
         <div className={`mt-3 px-6 py-2 rounded-md text-white font-bold ${
