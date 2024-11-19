@@ -140,9 +140,9 @@ export const playX = async (req, res) => {
       // Get the current game board
     //   const gameBoard = new Map(room.game);
     const gameBoard =  Object.fromEntries(room.game);
-      console.log(gameBoard);
-    //   gameBoard.set(xpos, 'X');
-      console.log(gameBoard[xpos]);
+    //   console.log(gameBoard);
+    // //   gameBoard.set(xpos, 'X');
+    //   console.log(gameBoard[xpos]);
       // Check if the cell is already taken
       if ( gameBoard[xpos] !== 'Z') {
         return res.status(400).json({ error: "Cell is already occupied" });
@@ -150,12 +150,15 @@ export const playX = async (req, res) => {
   
       // Place 'X' on the board
       gameBoard[xpos] = 'X';
+
+      console.log("game Board: ",gameBoard);
   
       // Check for a winner after the move
       const winner = checkWinner(gameBoard);
       if (winner) {
         room.winner = loggedInUser;
         room.winningBoxes = winner;
+        room.game = gameBoard;
         await room.save();
         return res.status(200).json({
           message: "You won the game!",
