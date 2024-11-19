@@ -8,11 +8,11 @@ const socket = io('http://localhost:7000');
 
 const GameBox = () => {
   const [boxes, setBoxes] = useState(Array(9).fill('Z'));
-  // const [isPlayerX, setIsPlayerX] = useState(null);
   const [currentTurn, setCurrentTurn] = useState(null);
   const [turnFor, setTurnFor] = useState(null);
   const [winner, setWinner] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [winnerBoxes, setWinnerBoxes] = useState([]);
 
   const { user } = useUser();
   const { room } = useRoom();
@@ -25,12 +25,13 @@ const GameBox = () => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to fetch game state');
+      console.log("winnerboxes at backend: ",data.winnerBoxes);
 
       setBoxes(Object.values(data.game));
       setCurrentTurn(data.currentTurn);
       setTurnFor(data.turnFor);
       setWinner(data.winner);
-      // setIsPlayerX(data.playerSymbol === 'X');
+      setWinnerBoxes(data.winningBoxes || []);
       setLoading(false);
     } catch (error) {
       toast.error(error.message);
@@ -100,7 +101,7 @@ const GameBox = () => {
   // const mySymbol = isPlayerX ? 'X' : 'O';
 
   if (loading) return <div className="text-center text-white">Loading...</div>;
-
+  console.log("winning boxes",winnerBoxes);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
       <Toaster />
@@ -120,6 +121,7 @@ const GameBox = () => {
           <div
             key={index}
             className={`flex items-center justify-center text-4xl font-bold bg-gray-700 cursor-pointer transition-colors rounded-md
+              ${winnerBoxes.includes(index) ? 'bg-green-900' : ''}
               ${box === 'Z' && isMyTurn && !winner ? 'hover:bg-gray-600' : ''}
               ${box === 'X' ? 'text-blue-400' : box === 'O' ? 'text-red-400' : 'text-transparent'}`}
             onClick={() => handleMove(index)}

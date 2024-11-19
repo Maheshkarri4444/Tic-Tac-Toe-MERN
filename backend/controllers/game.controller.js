@@ -155,11 +155,13 @@ export const playX = async (req, res) => {
       const winner = checkWinner(gameBoard);
       if (winner) {
         room.winner = loggedInUser;
+        room.winningBoxes = winner;
         await room.save();
         return res.status(200).json({
           message: "You won the game!",
           game: gameBoard,
           winner: loggedInUser,
+          winningBoxes: winner,
         });
       }
   
@@ -205,10 +207,10 @@ export const playX = async (req, res) => {
         gameBoard[a] === gameBoard[b] &&
         gameBoard[a] === gameBoard[c]
       ) {
-        return true;
+        return combination;
       }
     }
-    return false;
+    return null;
   };
   
   export const playO = async (req, res) => {
@@ -246,11 +248,13 @@ export const playX = async (req, res) => {
       const winner = checkWinner(gameBoard);
       if (winner) {
         room.winner = loggedInUser;
+        room.winningBoxes = winner;
         await room.save();
         return res.status(200).json({
           message: "You won the game!",
           game: gameBoard,
           winner: loggedInUser,
+          winningBoxes: winner,
         });
       }
   
@@ -300,6 +304,7 @@ export const playX = async (req, res) => {
   
       // Reset the winner
       room.winner = null;
+      room.winningBoxes = null;
   
       // Optionally, randomly set the first turn to one of the participants
       const randomTurnIndex = Math.floor(Math.random() * 2);
@@ -338,7 +343,8 @@ export const getGame = async(req,res)=>{
       participants: room.participants,
       currentTurn: room.currentTurn,
       turnFor: room.turnFor,
-      winner: room.winner
+      winner: room.winner,
+      winningBoxes: room.winningBoxes,
     });
 
   }catch(error){

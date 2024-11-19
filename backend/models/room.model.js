@@ -54,6 +54,16 @@ const roomSchema = new mongoose.Schema({
     ref: "User",
     default: null,
   },
+  winningBoxes: {
+    type: [Number],
+    validate: {
+      validator: function (boxes) {
+        return boxes === null || boxes.length === 3;
+      },
+      message: "Winning boxes must contain exactly 3 numbers or be null.",
+    },
+    default: null,
+  },
 },{timestamps:true});
 
 // Middleware to check participants count
