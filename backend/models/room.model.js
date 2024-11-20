@@ -49,6 +49,10 @@ const roomSchema = new mongoose.Schema({
       ]);
     },
   },
+  draw:{
+    type:Boolean,
+    default:false,
+  },
   winner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

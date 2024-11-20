@@ -13,6 +13,7 @@ const GameBox = () => {
   const [winner, setWinner] = useState(null);
   const [loading, setLoading] = useState(true);
   const [winnerBoxes, setWinnerBoxes] = useState([]);
+  const [draw, setDraw] = useState(false);
 
   const { user } = useUser();
   const { room } = useRoom();
@@ -32,6 +33,7 @@ const GameBox = () => {
       setTurnFor(data.turnFor);
       setWinner(data.winner);
       setWinnerBoxes(data.winningBoxes || []);
+      setDraw(data.draw);
       setLoading(false);
     } catch (error) {
       toast.error(error.message);
@@ -101,13 +103,17 @@ const GameBox = () => {
   // const mySymbol = isPlayerX ? 'X' : 'O';
 
   if (loading) return <div className="text-center text-white">Loading...</div>;
-  console.log("winning boxes",winnerBoxes);
+  // console.log("winning boxes",winnerBoxes);
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
+    <div className="flex flex-col items-center justify-center min-h-[90vh] bg-gray-900">
       <Toaster />
-      {winner ? (
+      {draw ? (
+        <div className="mb-4 text-2xl font-bold text-yellow-400">
+          Game Drawn 😐
+        </div>
+        ) :winner ? (
         <div className={`text-2xl font-bold mb-4 ${winner === user ? 'text-green-400' : 'text-red-400'}`}>
-          {winner === user ? 'You Won! 🎉' : 'Opponent Won'}
+          {winner === user ? 'You Won! 🎉' : 'Opponent Won 😴'}
         </div>
       ) : (
         <div className={`mt-3 px-6 py-2 rounded-md text-white font-bold ${
@@ -134,7 +140,7 @@ const GameBox = () => {
         onClick={resetGame}
         className="px-6 py-2 mt-3 font-bold text-white transition-colors bg-indigo-600 rounded-md hover:bg-indigo-700"
       >
-        Reset Game
+        {draw?"Play Again" : "Restart"}
       </button>
     </div>
   );

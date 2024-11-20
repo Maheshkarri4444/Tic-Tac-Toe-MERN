@@ -167,7 +167,20 @@ export const playX = async (req, res) => {
           winningBoxes: winner,
         });
       }
-  
+
+      const draw = checkDraw(gameBoard);
+      if(draw){
+        room.draw = true;
+        room.game = gameBoard;
+        await room.save();
+        return res.status(200).json({
+          message:"Game Drawn",
+          game:gameBoard,
+          draw:true,
+        });
+      }  
+
+
       // Switch turns to the other player
       const nextPlayer = room.participants.find((id) => String(id) !== String(loggedInUser));
       room.currentTurn = nextPlayer;
@@ -215,6 +228,11 @@ export const playX = async (req, res) => {
     }
     return null;
   };
+
+  const checkDraw = (gameBoard) => {
+    // If all cells are filled and there is no 'Z', it's a draw
+    return Object.values(gameBoard).every(cell => cell !== 'Z');
+  };
   
   export const playO = async (req, res) => {
     try {
@@ -261,6 +279,18 @@ export const playX = async (req, res) => {
         });
       }
   
+      const draw = checkDraw(gameBoard);
+      if(draw){
+        room.draw = true;
+        room.game = gameBoard;
+        await room.save();
+        return res.status(200).json({
+          message:"Game Drawn",
+          game:gameBoard,
+          draw:true,
+        });
+      };
+
       const nextPlayer = room.participants.find((id) => String(id) !== String(loggedInUser));
       room.currentTurn = nextPlayer;
       room.game = gameBoard;
@@ -308,6 +338,7 @@ export const playX = async (req, res) => {
       // Reset the winner
       room.winner = null;
       room.winningBoxes = null;
+      room.draw= false;
   
       // Optionally, randomly set the first turn to one of the participants
       const randomTurnIndex = Math.floor(Math.random() * 2);
@@ -348,6 +379,7 @@ export const getGame = async(req,res)=>{
       turnFor: room.turnFor,
       winner: room.winner,
       winningBoxes: room.winningBoxes,
+      draw: room.draw,
     });
 
   }catch(error){
