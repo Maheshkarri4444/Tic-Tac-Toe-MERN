@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import { useRoom } from '../contexts/RoomContext';
 import toast, { Toaster } from 'react-hot-toast';
 import { useUser } from '../contexts/UserContext';
+import { Link , useNavigate} from 'react-router-dom'
 
 const socket = io('http://localhost:7000');
 
@@ -14,9 +15,11 @@ const GameBox = () => {
   const [loading, setLoading] = useState(true);
   const [winnerBoxes, setWinnerBoxes] = useState([]);
   const [draw, setDraw] = useState(false);
+  const [isOpponentOnline, setIsOpponentOnline] = useState(true);
 
   const { user } = useUser();
   const { room } = useRoom();
+  const navigate = useNavigate();
 
   const fetchGame = async () => {
     try {
@@ -49,9 +52,10 @@ const GameBox = () => {
     socket.on('resetGame', async () => {
       await fetchGame(); // Fetch the reset state from server
     });
-    socket.on('playerAssignment', ({ assignedPlayer }) => {
-      // setIsPlayerX(assignedPlayer === 'X');
-      setLoading(false);
+
+    socket.on('opponentDisconnected', () => {
+      setIsOpponentOnline(false);
+      toast.error('Opponent went offline!');
     });
 
     fetchGame();
@@ -59,8 +63,9 @@ const GameBox = () => {
     return () => {
       socket.off('gameUpdated');
       socket.off('resetGame');
+      socket.off('opponentDisconnected');
       socket.off('playerAssignment');
-      socket.emit('leaveRoom', { roomId: room });
+      // socket.emit('leaveRoom', { roomId: room });
     };
   }, [room, user]);
 
@@ -99,6 +104,11 @@ const GameBox = () => {
     }
   };
 
+  const handleLeaveGame = () => {
+    socket.emit('leaveRoom', { roomId: room, user });
+    navigate('/');
+  };
+
   const isMyTurn = currentTurn === user;
   // const mySymbol = isPlayerX ? 'X' : 'O';
 
@@ -107,6 +117,11 @@ const GameBox = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[90vh] bg-gray-900">
       <Toaster />
+      {!isOpponentOnline && (
+        <div className="mb-4 text-xl font-semibold text-yellow-400">
+          Opponent Disconnected 
+        </div>
+      )}
       {draw ? (
         <div className="mb-4 text-2xl font-bold text-yellow-400">
           Game Drawn 😐
@@ -140,7 +155,13 @@ const GameBox = () => {
         onClick={resetGame}
         className="px-6 py-2 mt-3 font-bold text-white transition-colors bg-indigo-600 rounded-md hover:bg-indigo-700"
       >
-        {draw?"Play Again" : "Restart"}
+        {draw||winner?"Play Again" : "Restart"}
+      </button>
+      <button
+        onClick={handleLeaveGame}
+        className="px-6 py-2 mt-3 font-bold text-white transition-colors bg-indigo-600 rounded-md hover:bg-indigo-700"
+      >
+      Leave Room
       </button>
     </div>
   );

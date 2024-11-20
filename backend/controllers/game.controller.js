@@ -270,6 +270,7 @@ export const playX = async (req, res) => {
       if (winner) {
         room.winner = loggedInUser;
         room.winningBoxes = winner;
+        room.game = gameBoard;
         await room.save();
         return res.status(200).json({
           message: "You won the game!",
