@@ -19,5 +19,8 @@
     "mongoose": "^8.8.1",
     "socket.io": "^4.8.1",
     "vite": "^5.4.10"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
