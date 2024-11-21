@@ -98,17 +98,41 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
-    
+    // socket.to(roomId).emit('opponentDisconnected');
+    // rooms.forEach((room, roomId) => {
+    //   if (room.players.has(socket.id)) {
+    //     room.players.delete(socket.id);
+    //     if (room.players.size === 0) {
+    //       rooms.delete(roomId);
+    //     }
+    //   }
+    // });
+
     rooms.forEach((room, roomId) => {
       if (room.players.has(socket.id)) {
-        room.players.delete(socket.id);
-        if (room.players.size === 0) {
-          rooms.delete(roomId);
-        }
+        const user = room.players.get(socket.id);
+        handlePlayerDisconnection(socket, roomId, user);
       }
     });
   });
 });
+
+const handlePlayerDisconnection = (socket, roomId, user) => {
+  if (roomId && rooms.has(roomId)) {
+    const room = rooms.get(roomId);
+    room.players.delete(socket.id);
+    userSocketMap.delete(user);
+    
+    // Notify remaining player about disconnection
+    socket.to(roomId).emit('opponentDisconnected');
+    
+    if (room.players.size === 0) {
+      rooms.delete(roomId);
+    }
+    
+    socket.leave(roomId);
+  }
+}
 
 const startServer = async () => {
   try {

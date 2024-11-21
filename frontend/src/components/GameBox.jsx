@@ -112,7 +112,18 @@ const GameBox = () => {
   const isMyTurn = currentTurn === user;
   // const mySymbol = isPlayerX ? 'X' : 'O';
 
-  if (loading) return <div className="text-center text-white">Loading...</div>;
+  if (loading){ 
+    return( 
+      <div>
+        <div className="text-center text-white">Loading...</div>
+          <button
+          onClick={handleLeaveGame}
+          className="px-6 py-2 mt-3 font-bold text-white transition-colors bg-indigo-600 rounded-md hover:bg-indigo-700"
+          >
+          Leave Room
+          </button>
+      </div>
+  )}
   // console.log("winning boxes",winnerBoxes);
   return (
     <div className="flex flex-col items-center justify-center min-h-[90vh] bg-gray-900">

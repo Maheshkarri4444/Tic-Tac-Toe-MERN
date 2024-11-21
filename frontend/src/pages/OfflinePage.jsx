@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const OfflinePage = () => {
     const [boxes, setBoxes] = useState(Array(9).fill(null));
@@ -7,6 +7,7 @@ const OfflinePage = () => {
     const [isGameOver, setIsGameOver] = useState(false);
     const [result, setResult] = useState("");
     const [winningBoxes, setWinningBoxes] = useState([]); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         checkDraw();
@@ -73,6 +74,10 @@ const OfflinePage = () => {
 
     };
 
+    const handleLeaveGame = () => {
+        navigate('/');
+      };
+
   return (
     <div>
         <div className="turn-container relative w-[170px] h-[80px] m-auto grid  grid-cols-2 grid-rows-2 ">
@@ -96,7 +101,7 @@ const OfflinePage = () => {
             <h2 id="results" className='mb-4 text-2xl font-bold'>{result}</h2>
             <button id="play-again" onClick={playAgain} className='hidden cursor-pointer bg-[#4f46E5] text-[1.2rem] px-[25px] py-[10px] rounded-md border-none   hover:px-[40px]' >Play Again</button>
         </div>
-        <div>
+        <div onClick={handleLeaveGame}>
             <button id='home-button' className='inline cursor-pointer bg-[#4f46E5] text-[1.2rem] px-[25px] py-[10px] rounded-md border-none   hover:px-[40px]'>Home</button>
         </div>
 
