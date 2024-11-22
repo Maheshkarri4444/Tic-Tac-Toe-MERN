@@ -14,8 +14,10 @@ const PORT = process.env.PORT || 7000;
 
 // Middleware setup
 app.use(cors({
-  origin: 'https://tic-tac-toe-mern-azure.vercel.app',
-  credentials: true
+  origin: ["https://tic-tac-toe-mern-azure.vercel.app"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.use(express.json());
 app.use(cookieParser());
@@ -26,7 +28,7 @@ app.use('/api/game', gameRoutes);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'https://tic-tac-toe-mern-azure.vercel.app',
+    origin: ["https://tic-tac-toe-mern-azure.vercel.app"],
     methods: ['GET', 'POST'],
     credentials: true,
   },

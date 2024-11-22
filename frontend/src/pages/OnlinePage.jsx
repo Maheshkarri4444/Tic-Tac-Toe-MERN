@@ -5,7 +5,16 @@ import { io } from 'socket.io-client';
 import { useRoom } from '../contexts/RoomContext';
 import { useUser } from '../contexts/UserContext';
 
-const socket = io('https://tic-tac-toe-mern-sad5.onrender.com');
+const socket = io('https://tic-tac-toe-mern-sad5.onrender.com',{
+  withCredentials: true,
+  transportOptions: {
+    polling: {
+      extraHeaders: {
+        'Content-Type': 'application/json'
+      }
+    }
+  }
+});
 
 const OnlinePage = () => {
   const { user, setUser } = useUser();

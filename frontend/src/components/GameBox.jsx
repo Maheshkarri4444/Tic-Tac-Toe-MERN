@@ -5,7 +5,16 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useUser } from '../contexts/UserContext';
 import { Link , useNavigate} from 'react-router-dom'
 
-const socket = io('https://tic-tac-toe-mern-sad5.onrender.com');
+const socket = io('https://tic-tac-toe-mern-sad5.onrender.com',{
+  withCredentials: true,
+  transportOptions: {
+    polling: {
+      extraHeaders: {
+        'Content-Type': 'application/json'
+      }
+    }
+  }
+});
 
 const GameBox = () => {
   const [boxes, setBoxes] = useState(Array(9).fill('Z'));
@@ -26,6 +35,9 @@ const GameBox = () => {
       const res = await fetch(`https://tic-tac-toe-mern-sad5.onrender.com/api/game/play/${room}`, {
         method: 'GET',
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to fetch game state');
@@ -76,6 +88,9 @@ const GameBox = () => {
       const res = await fetch(`https://tic-tac-toe-mern-sad5.onrender.com/api/game/play/${room}/${turnFor}/${index}`, {
         method: 'POST',
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       
       if (!res.ok) {
@@ -94,6 +109,9 @@ const GameBox = () => {
       const res = await fetch(`https://tic-tac-toe-mern-sad5.onrender.com/api/game/play/reset/${room}`, {
         method: 'PUT',
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       if (!res.ok) throw new Error('Failed to reset game');
 
