@@ -10,7 +10,7 @@
 Welcome to Tic-Tac-Toe MERN, a real-time multiplayer version of the classic Tic-Tac-Toe game! Built using the MERN stack and Socket.IO, this application connects players across devices, enabling them to enjoy a competitive and seamless gaming experience.
 
 # 🚀 Demo
-Check out the live demo here
+Check out the live demo here  https://tic-tac-toe-mern-azure.vercel.app/
 
 # Glimpse
 https://github.com/user-attachments/assets/9621c188-8f5c-4046-b836-29a098afd02c
