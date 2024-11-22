@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 7000;
 
 // Middleware setup
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://tic-tac-toe-mern-azure.vercel.app',
   credentials: true
 }));
 app.use(express.json());
@@ -26,7 +26,7 @@ app.use('/api/game', gameRoutes);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: 'https://tic-tac-toe-mern-azure.vercel.app',
     methods: ['GET', 'POST'],
     credentials: true,
   },
