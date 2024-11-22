@@ -5,7 +5,7 @@ import { io } from 'socket.io-client';
 import { useRoom } from '../contexts/RoomContext';
 import { useUser } from '../contexts/UserContext';
 
-const socket = io('http://localhost:7000');
+const socket = io('https://tic-tac-toe-mern-sad5.onrender.com');
 
 const OnlinePage = () => {
   const { user, setUser } = useUser();
@@ -36,7 +36,7 @@ const OnlinePage = () => {
 
     setIsLoading(prev => ({ ...prev, name: true }));
     try {
-      const res = await fetch('http://localhost:7000/api/game/login', {
+      const res = await fetch('https://tic-tac-toe-mern-sad5.onrender.com/api/game/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: name }),
@@ -67,7 +67,7 @@ const OnlinePage = () => {
     setIsLoading(prev => ({ ...prev, [loadingKey]: true }));
 
     try {
-      const res = await fetch(`http://localhost:7000/api/game/${action}`, {
+      const res = await fetch(`https://tic-tac-toe-mern-sad5.onrender.com/api/game/${action}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ roomId: room }),

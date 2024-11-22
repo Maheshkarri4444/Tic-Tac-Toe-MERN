@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useUser } from '../contexts/UserContext';
 import { Link , useNavigate} from 'react-router-dom'
 
-const socket = io('http://localhost:7000');
+const socket = io('https://tic-tac-toe-mern-sad5.onrender.com');
 
 const GameBox = () => {
   const [boxes, setBoxes] = useState(Array(9).fill('Z'));
@@ -23,7 +23,7 @@ const GameBox = () => {
 
   const fetchGame = async () => {
     try {
-      const res = await fetch(`http://localhost:7000/api/game/play/${room}`, {
+      const res = await fetch(`https://tic-tac-toe-mern-sad5.onrender.com/api/game/play/${room}`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -73,7 +73,7 @@ const GameBox = () => {
     if (boxes[index] !== 'Z' || winner || currentTurn !== user) return;
 
     try {
-      const res = await fetch(`http://localhost:7000/api/game/play/${room}/${turnFor}/${index}`, {
+      const res = await fetch(`https://tic-tac-toe-mern-sad5.onrender.com/api/game/play/${room}/${turnFor}/${index}`, {
         method: 'POST',
         credentials: 'include',
       });
@@ -91,7 +91,7 @@ const GameBox = () => {
 
   const resetGame = async () => {
     try {
-      const res = await fetch(`http://localhost:7000/api/game/play/reset/${room}`, {
+      const res = await fetch(`https://tic-tac-toe-mern-sad5.onrender.com/api/game/play/reset/${room}`, {
         method: 'PUT',
         credentials: 'include',
       });
