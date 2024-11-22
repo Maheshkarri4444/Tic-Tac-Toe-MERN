@@ -1,7 +1,7 @@
 import React from 'react'
 import Home from './pages/HomePage' 
 import { Route,Routes } from 'react-router-dom'
-import OnlinePage from './pages/onlinePage'
+import OnlinePage from './pages/OnlinePage.jsx'
 import OfflinePage from './pages/OfflinePage.jsx'
 import Game from './pages/GamePage'
 import { RoomProvider } from './contexts/RoomContext.jsx'
