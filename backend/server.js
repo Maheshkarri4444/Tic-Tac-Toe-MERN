@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 7000;
 
 // Middleware setup
 app.use(cors({
-  origin: 'https://tictactoemern.netlify.app/',
+  origin: 'http://localhost:5173',
   credentials: true
 }));
 app.use(express.json());
